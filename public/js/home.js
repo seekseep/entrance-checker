@@ -65,7 +65,7 @@ function start (canvas, video, logs, interval = 100) {
       }
     )
 
-    const existsQRCode = !!qrCode
+    const existsQRCode = !!(qrCode && qrCode?.data)
     const existsFace = detections.length > 0
 
     if (existsQRCode && existsFace) {
@@ -122,6 +122,7 @@ async function init () {
     appendLog(logs, "カメラへのアクエス権の取得完了")
     video.srcObject = stream
     appendLog(logs, "監視開始")
+    appendLog(logs, "顔が写った状態でQRコードをかざしてください")
     start(canvas, video, logs, images)
   } catch (error) {
     appendLog(logs, error)
