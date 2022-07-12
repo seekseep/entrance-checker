@@ -71,9 +71,16 @@ function start (canvas, video, logs, interval = 100) {
     if (existsQRCode && existsFace) {
       // appendLog(logs, new Date().toLocaleTimeString() + ": QR & 顔コードあり")
       // appendLog(logs, qrCode.data)
+      ctx.fillStyle = "white"
+      ctx.fillRect(0, 0, WIDTH, 128)
+      ctx.fillStyle = "black"
+      ctx.textAlign = "left"
+      ctx.font = 'bold 48px sans-serif'
+      ctx.fillText(qrCode.data, 64, 64)
       const img = document.createElement("img")
       img.src = canvas.toDataURL()
-      document.body.append(img)
+      img.setAttribute("class", "w-72 h-auto flex-srhink-0")
+      images.append(img)
       window.alert("認証しました。")
     } else if (existsQRCode) {
       // appendLog(logs, new Date().toLocaleTimeString() + ": QRコードあり")
@@ -97,18 +104,25 @@ async function init () {
   const canvas = document.querySelector("#canvas")
   /** @type {HTMLDivElement} */
   const logs = document.querySelector("#logs")
+  /** @type {HTMLDivElement} */
+  const images = document.querySelector("#images")
 
   video.setAttribute("width", WIDTH)
   video.setAttribute("height", HEIGHT)
   canvas.setAttribute("width", WIDTH)
   canvas.setAttribute("height", HEIGHT)
 
+  appendLog(logs, "顔認証に必要なデータのダウンロード開始")
   await faceapi.loadSsdMobilenetv1Model('/model')
+  appendLog(logs, "顔認証に必要なデータのダウンロード終了")
 
   try {
+    appendLog(logs, "カメラへのアクエス権の取得")
     const stream = await mediaDeveices.getUserMedia(constraints)
+    appendLog(logs, "カメラへのアクエス権の取得完了")
     video.srcObject = stream
-    start(canvas, video, logs)
+    appendLog(logs, "監視開始")
+    start(canvas, video, logs, images)
   } catch (error) {
     appendLog(logs, error)
     throw error
