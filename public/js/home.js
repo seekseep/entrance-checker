@@ -100,7 +100,6 @@ async function init () {
 
   video.setAttribute("width", WIDTH)
   video.setAttribute("height", HEIGHT)
-  video.setAttribute("hidden", "")
   canvas.setAttribute("width", WIDTH)
   canvas.setAttribute("height", HEIGHT)
 
