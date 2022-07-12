@@ -39,7 +39,6 @@ function appendLog (logs, message) {
 function start (canvas, video, logs, interval = 100) {
   const ctx = canvas.getContext('2d')
 
-
   async function draw () {
     ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
 
@@ -70,16 +69,17 @@ function start (canvas, video, logs, interval = 100) {
     const existsFace = detections.length > 0
 
     if (existsQRCode && existsFace) {
-      appendLog(logs, new Date().toLocaleTimeString() + ": QR & 顔コードあり")
-      appendLog(logs, qrCode.data)
+      // appendLog(logs, new Date().toLocaleTimeString() + ": QR & 顔コードあり")
+      // appendLog(logs, qrCode.data)
       const img = document.createElement("img")
       img.src = canvas.toDataURL()
       document.body.append(img)
+      window.alert("認証しました。")
     } else if (existsQRCode) {
-      appendLog(logs, new Date().toLocaleTimeString() + ": QRコードあり")
-      appendLog(logs, qrCode.data)
+      // appendLog(logs, new Date().toLocaleTimeString() + ": QRコードあり")
+      // appendLog(logs, qrCode.data)
     } else if (existsFace) {
-      appendLog(logs, new Date().toLocaleTimeString() + ": 顔あり")
+      // appendLog(logs, new Date().toLocaleTimeString() + ": 顔あり")
     }
 
     if (window.stop) return
